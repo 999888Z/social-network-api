@@ -62,20 +62,52 @@ router.put("/:_id", async (req, res) => {
 });
 
 router.delete("/:_id", async (req, res) => {
+  try {
+    const thought = await Thought.findOneAndRemove({ _id: req.params._id });
+
+    if (!thought) {
+      return res.status(404).json({ message: "No such thought exists" });
+    }
+
+    res.json({ message: "Thought successfully deleted" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+//creates a reaction and adds to the existing user thought
+router.post("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const userReaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      {$push: { reactions: req.body }},
+
+      { new: true }
+    );
+    res.status(200).json(userReaction);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+//deletes a specific reaction  url: thoughtId/reactions/reactionId
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
     try {
-        const thought = await Thought.findOneAndRemove({ _id: req.params._id });
-  
-        if (!thought) {
-          return res.status(404).json({ message: 'No such thought exists' })
-        }
-  
-   
-  
-        res.json({ message: 'Thought successfully deleted' });
+        const userReaction = await Thought.findOneAndUpdate(
+          { _id: req.params.thoughtId },
+          {$pull: { reactions:{reactionId: req.params.reactionId }}},
+    
+          { new: true }
+        );
+        res.json({ message: "Reaction successfully deleted" });
       } catch (err) {
         console.log(err);
         res.status(500).json(err);
-      }  
-})
+      }
+
+
+
+});
 
 module.exports = router;
