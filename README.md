@@ -5,7 +5,7 @@
 An API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list.
 
 ## Screenshot of Application
-<img src="./assets/image/e-commerce-back-end-screenshot.png" alt="screenshot">
+<img src="./assets/image/social-media-api-screenshot.png" alt="screenshot">
 
 ## Table of Contents
 - [Installation](#Installation)
