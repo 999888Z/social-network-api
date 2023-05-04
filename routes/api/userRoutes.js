@@ -61,7 +61,7 @@ router.delete("/:_id", async (req, res) => {
       allThoughts = thoughtId[index]
         .toString()
         .replace(/ObjectId("(.*)")/, "$1");
-      console.log(typeof allThoughts);
+      
       await Thought.findOneAndRemove({ _id: allThoughts });
     }
 
